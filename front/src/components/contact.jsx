@@ -22,7 +22,7 @@ export const Contact = (props) => {
     console.log(fName, lName, level, section, pNumber, email, department)
     e.preventDefault()
     let data = { fName, lName, level, section, pNumber, email, department }
-    fetch('http://localhost:3080/newApplication', {
+    fetch('http://192.168.137.11:3080/newApplication', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' }
