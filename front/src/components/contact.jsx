@@ -1,16 +1,13 @@
 import { useState } from 'react'
+import emailjs from 'emailjs-com'
 
 const initialState = {
-  fName: '',
-  lName: '',
-  level: '',
-  section: '',
-  pNumber: '',
+  name: '',
   email: '',
-  department: 'Project',
+  message: '',
 }
 export const Contact = (props) => {
-  const [{ fName, lName, level, section, pNumber, email, department }, setState] = useState(initialState)
+  const [{ name, email, message }, setState] = useState(initialState)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -19,19 +16,21 @@ export const Contact = (props) => {
   const clearState = () => setState({ ...initialState })
 
   const handleSubmit = (e) => {
-    console.log(fName, lName, level, section, pNumber, email, department)
     e.preventDefault()
-    let data = { fName, lName, level, section, pNumber, email, department }
-    fetch('http://192.168.137.11:3080/newApplication', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then(
-        clearState()
+    console.log(name, email, message)
+    emailjs
+      .sendForm(
+        'YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', e.target, 'YOUR_USER_ID'
       )
-      .catch(err => console.log(err))
-
+      .then(
+        (result) => {
+          console.log(result.text)
+          clearState()
+        },
+        (error) => {
+          console.log(error.text)
+        }
+      )
   }
   return (
     <div>
@@ -46,18 +45,17 @@ export const Contact = (props) => {
                   get back to you as soon as possible.
                 </p>
               </div>
-              <form name='sentMessage' onSubmit={handleSubmit}>
+              <form name='sentMessage' method="POST" validate action="https://docs.google.com/forms/d/e/1FAIpQLScg6FYi-m4BHptoI3d7t8fE8mq0jYkIDnQ7pSaLmvncYgBkfg/formResponse">
                 <div className='row'>
                   <div className='col-md-6'>
                     <div className='form-group'>
                       <input
                         type='text'
                         id='name'
-                        name='fName'
+                        name='entry.1291740113'
                         className='form-control'
                         placeholder='First Name'
                         required
-                        value={fName}
                         onChange={handleChange}
                       />
                       <p className='help-block text-danger'></p>
@@ -68,11 +66,10 @@ export const Contact = (props) => {
                       <input
                         type='text'
                         id='name'
-                        name='lName'
+                        name='entry.444349995'
                         className='form-control'
                         placeholder='Last Name'
                         required
-                        value={lName}
                         onChange={handleChange}
                       />
                       <p className='help-block text-danger'></p>
@@ -83,11 +80,10 @@ export const Contact = (props) => {
                       <input
                         type='text'
                         id='name'
-                        name='level'
+                        name='entry.1241671488'
                         className='form-control'
                         placeholder='Level'
                         required
-                        value={level}
                         onChange={handleChange}
                       />
                       <p className='help-block text-danger'></p>
@@ -98,11 +94,10 @@ export const Contact = (props) => {
                       <input
                         type='text'
                         id='name'
-                        name='section'
+                        name='entry.1210087097'
                         className='form-control'
                         placeholder='Section'
                         required
-                        value={section}
                         onChange={handleChange}
                       />
                       <p className='help-block text-danger'></p>
@@ -113,11 +108,10 @@ export const Contact = (props) => {
                       <input
                         type='text'
                         id='name'
-                        name='pNumber'
+                        name='entry.933118808'
                         className='form-control'
                         placeholder='Phone Number'
                         required
-                        value={pNumber}
                         onChange={handleChange}
                       />
                       <p className='help-block text-danger'></p>
@@ -128,11 +122,10 @@ export const Contact = (props) => {
                       <input
                         type='email'
                         id='email'
-                        name='email'
+                        name='entry.319692905'
                         className='form-control'
                         placeholder='Email'
                         required
-                        value={email}
                         onChange={handleChange}
                       />
                       <p className='help-block text-danger'></p>
@@ -143,10 +136,8 @@ export const Contact = (props) => {
                   <label htmlFor="department">Which department would you like to take part in ?</label>
                   <select
                     id="department"
-                    name="department"
+                    name="entry.308229793"
                     className='form-control'
-                    value={department}
-                    onChange={handleChange}
                     required
                   >
                     <option value="Project">Project</option>
@@ -157,7 +148,7 @@ export const Contact = (props) => {
                   </select>
                 </div>
                 <div className='form-group'>
-                  <input type="hidden" name="pp" />
+                  <input type="hidden" name="entry.308229793_sentinel" />
                   <p className='help-block text-danger'></p>
                 </div>
                 <div id='success'></div>
@@ -222,7 +213,10 @@ export const Contact = (props) => {
       <div id='footer'>
         <div className='container text-center'>
           <p>
-            &copy; 2021 CLUB ROBOTIQUE ISAMM
+            &copy; 2020 Issaaf Kattan React Land Page Template. Design by{' '}
+            <a href='http://www.templatewire.com' rel='nofollow'>
+              TemplateWire
+            </a>
           </p>
         </div>
       </div>
